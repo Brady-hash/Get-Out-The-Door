@@ -1,18 +1,31 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Kids Morning Tasks</title>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Getting out the door</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./assets/css/reset.css">
-        <link rel="stylesheet" href="./assets/css/style.css">
-    </head>
-    <body>
-        
-        
-        <script src="./assets/js/script.js" async defer></script>
-    </body>
+</head>
+<body>
+    <header>
+        <h1>Kids Morning Tasks</h1>
+    </header>
+
+    <main>
+        <label for="taskInput">Add a task:</label>
+        <input type="text" id="taskInput" placeholder="E.g., Brush teeth">
+
+        <button onclick="addTask()">Add Task</button>
+
+        <ul id="taskList"></ul>
+    </main>
+<!-- NOW -->
+    <footer>
+        <p>© 2023 Kids Morning Tasks</p>
+    </footer>
+
+    <script src="./assets/js/script.js"></script>
+</body>
 </html>
