@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/Demo.css" />
+    <title>Kids Morning Tasks I</title>
+    
+</head>
+<body>
+    <header>
+        <h1>Kids Morning Tasks</h1>
+    </header>
+
+    <main>
+        <label for="taskInput">Add a task:</label>
+        <input type="text" id="taskInput" placeholder="E.g., Brush teeth">
+        <button onclick="addTask()">Add Task</button>
+        <button onclick="openChildInfoPopup()">Child Information</button>
+
+        <ul id="taskList"></ul>
+    </main>
+
+    <!-- Child Information Popup -->
+    <div id="overlay"></div>
+    <div id="childInfoPopup">
+        <label for="childName">Child's Name:</label>
+        <input type="text" id="childName" placeholder="Enter name">
+
+        <label for="childAge">Child's Age:</label>
+        <input type="number" id="childAge" placeholder="Enter age">
+
+        <label for="childGender">Child's Gender:</label>
+        <select id="childGender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <button onclick="saveChildInfo()">Save</button>
+        <button id="closePopup" onclick="closeChildInfoPopup()">Close</button>
+    </div>
+
+    <footer>
+        <p>© 2023 Kids Morning Tasks</p>
+    </footer>
+
+    <script src="./assets/js/Demo.js"></script>
+
+    <!-- Clock -->
+    <div id="clock" style="text-align: center; margin-top: 20px; font-size: 20px;"></div>
+
+
+    
+</body>
+</html>
