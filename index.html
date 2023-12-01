@@ -10,10 +10,11 @@
 </head>
 <body>
     <header>
-        <h1>Kids Morning Tasks</h1>
+        <h1>Get Out The Door!</h1>
     </header>
 
     <main>
+        <section class="kid-task-container">
         <!-- Task Input -->
         <label for="taskInput">Add a task:</label>
         <input type="text" id="taskInput" placeholder="E.g., Brush teeth">
@@ -24,6 +25,7 @@
 
         <!-- Task List -->
         <ul id="taskList"></ul>
+    </section>
     </main>
 
     <!-- Child Information Popup -->
@@ -60,9 +62,10 @@
     <!-- Analog Clock with Digital Readout -->
     <div id="clockContainer">
         <div id="analogClock">
-            <div id="hourHand"></div>
-            <div id="minuteHand"></div>
-            <div id="secondHand"></div>
+            <div class="overlay"></div>
+            <div id="hourHand" class="hand"></div>
+            <div id="minuteHand" class="hand"></div>
+            <div id="secondHand" class="hand"></div>
         </div>
         <div id="digitalClock"></div>
     </div>

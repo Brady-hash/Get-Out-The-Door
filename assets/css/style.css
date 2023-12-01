@@ -101,6 +101,7 @@ footer {
 #clockContainer {
     text-align: center;
     margin-top: 20px;
+    position: relative;
 }
 
 #analogClock {
@@ -110,15 +111,47 @@ footer {
     border-radius: 50%;
     position: relative;
     display: inline-block;
+    background: url('../images/clockface.jpg') center center; 
+    background-size: cover;
 }
 
-#hourHand,
-#minuteHand,
-#secondHand {
+/* .overlay {
     position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%; /* Adjust this value to control the starting point of the overlay */
+    /* background-color: rgba(120, 37, 37, 0.5); /* Adjust the alpha value for transparency */
+    /* clip-path: polygon(50% 50%, 100% 50%, 100% 0, 50% 0, 50% 50%, 0 50%, 0 100%, 50% 100%) ellipse(50% 50% at 50% 50%); */
+
+/* } */
+
+.hand {
+    position: absolute;
+    background-color: #333;
     transform-origin: 50% 100%;
-    background: #333;
-    transition: transform 0.5s cubic-bezier(0.4, 2.2, 0.5, 1);
+    /* transform: rotate(90deg); */
+    /* transition: transform 0.5s cubic-bezier(0.4, 2.8, 0.3, 1); */
+  }
+
+#hourHand {
+height: 40px;
+width: 6px;
+top: 60px;
+left: 100px;
+}
+#minuteHand {
+    height: 60px;
+    width: 4px;
+    top: 40px;
+    left: 100px;
+}
+#secondHand {
+    height: 70px;
+    width: 2px;
+    top: 30px;
+    left: 100px
 }
 
 #digitalClock {
