@@ -1,12 +1,6 @@
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
-    padding: 0;
-    background-color: #f7f7f7;
-}
-
-header {
+#childInfoTableContainer {
     text-align: center;
+    margin-top: 10px; /* Adjust as needed */
     padding: 10px;
     background-color: #3498db;
     color: #fff;
