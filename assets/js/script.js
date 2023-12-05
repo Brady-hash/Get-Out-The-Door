@@ -1,93 +1,104 @@
-function addTask() {
-    const taskInput = document.getElementById('taskInput');
-    const taskList = document.getElementById('taskList');
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to add a task
+    function addTask() {
+        var taskInput = document.getElementById('taskInput');
+        var taskList = document.getElementById('taskList');
 
-    if (taskInput.value !== '') {
-        const taskItem = document.createElement('li');
-        taskItem.classList.add('taskItem');
+        if (taskInput.value.trim() !== '') {
+            var li = document.createElement('li');
+            li.className = 'collection-item';
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
+            // Checkbox
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'filled-in';
+            checkbox.id = 'taskCheckbox'; // Add a unique ID for each checkbox if needed
+            li.appendChild(checkbox);
 
-        const taskText = document.createElement('span');
-        taskText.textContent = taskInput.value;
+            // Label for the checkbox
+            var label = document.createElement('label');
+            label.htmlFor = 'taskCheckbox'; // Use the same ID as the checkbox
+            label.textContent = taskInput.value;
+            li.appendChild(label);
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.onclick = function () {
-            taskList.removeChild(taskItem);
-        };
+            // Delete button with Material Icons
+            var deleteButton = document.createElement('a');
+            deleteButton.href = '#';
+            deleteButton.className = 'secondary-content';
+            deleteButton.innerHTML = '<i class="material-icons">delete</i>';
+            deleteButton.addEventListener('click', function () {
+                li.remove();
+            });
+            li.appendChild(deleteButton);
 
-        taskItem.appendChild(checkbox);
-        taskItem.appendChild(taskText);
-        taskItem.appendChild(deleteButton);
-
-        taskList.appendChild(taskItem);
-        taskInput.value = '';
+            taskList.appendChild(li);
+            taskInput.value = '';
+        }
     }
-}
 
-// Function to display child information in the container
-function displayChildInfo(childInfo){
-    const childInfoContainer = document.getElementById('childInfoContainer');
-    const childRow = document.createElement('div');
-    childRow.classList.add('childInfoRow');
-    childRow.textContent = 'Name: ${childInfo.name}, Age: ${childInfo.age}, Gender: ${childInfo.gender}';
-    childInfoContainer.appendChild(childRow);
+    // Function to open child information popup
+    function openChildInfoPopup() {
+        var overlay = document.getElementById('overlay');
+        var childInfoPopup = document.getElementById('childInfoPopup');
 
-}
+        overlay.style.display = 'block';
+        childInfoPopup.style.display = 'block';
+    }
 
-// Functions for Child Information Popup
-function openChildInfoPopup() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('childInfoPopup').style.display = 'block';
-}
+    // Function to save child information
+    function saveChildInfo() {
+        var childName = document.getElementById('childName').value;
+        var childAge = document.getElementById('childAge').value;
+        var childGender = document.getElementById('childGender').value;
+        var childInfoContainer = document.getElementById('childInfoContainer');
 
-// Function to close the child information popup
-function closeChildInfoPopup() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('childInfoPopup').style.display = 'none';
-}
+        // Create a new row in the table
+        var tableRow = document.createElement('tr');
 
-// Function to save child information
-function saveChildInfo() {
-    const childName = document.getElementById('childName').value;
-    const childAge = document.getElementById('childAge').value;
-    const childGender = document.getElementById('childGender').value;
+        // Add data cells to the row
+        var nameCell = document.createElement('td');
+        nameCell.textContent = childName;
 
-    alert(`Child Information Saved:\nName: ${childName}\nAge: ${childAge}\nGender: ${childGender}`);
+        var ageCell = document.createElement('td');
+        ageCell.textContent = childAge;
 
-    closeChildInfoPopup();
-}
+        var genderCell = document.createElement('td');
+        genderCell.textContent = childGender;
 
-// Functions for Analog Clock with Digital Readout
-function updateClock() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+        // Append cells to the row
+        tableRow.appendChild(nameCell);
+        tableRow.appendChild(ageCell);
+        tableRow.appendChild(genderCell);
 
-    // Update analog clock hands
-    const hourHand = document.getElementById('hourHand');
-    const minuteHand = document.getElementById('minuteHand');
-    const secondHand = document.getElementById('secondHand');
+        // Append the row to the table body
+        var tableBody = document.querySelector('#childInfoTable tbody');
+        tableBody.appendChild(tableRow);
 
-    const hourDeg = (hours % 12 + minutes / 60) * 30;
-    const minuteDeg = (minutes + seconds / 60) * 6;
-    const secondDeg = seconds * 6;
+        closeChildInfoPopup();
+    }
 
-    hourHand.style.transform = `rotate(${hourDeg}deg)`;
-    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-    secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    // Function to close child information popup
+    function closeChildInfoPopup() {
+        var overlay = document.getElementById('overlay');
+        var childInfoPopup = document.getElementById('childInfoPopup');
 
-    // Update digital clock
-    const digitalClock = document.getElementById('digitalClock');
-    const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    digitalClock.textContent = timeString;
-}
+        overlay.style.display = 'none';
+        childInfoPopup.style.display = 'none';
+    }
 
-// Update the clock every second
-setInterval(updateClock, 1000);
+    // Attach functions to buttons
+    document.getElementById('addTaskBtn').addEventListener('click', addTask);
+    document.getElementById('childInfoBtn').addEventListener('click', openChildInfoPopup);
+    document.getElementById('saveChildInfoBtn').addEventListener('click', saveChildInfo);
+    document.getElementById('closePopup').addEventListener('click', closeChildInfoPopup);
 
-// Initial call to set the clock when the page loads
-updateClock();
+    // Initialize Materialize tooltips
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
+    
+    // Materialize checkboxes don't need explicit initialization
+
+    // Initialize Materialize components (if needed)
+    // var otherElems = document.querySelectorAll('.other-class');
+    // M.OtherComponent.init(otherElems);
+});
