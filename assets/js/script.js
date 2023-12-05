@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener('DOMContentLoaded', function () {
     // Function to add a task
     function addTask() {
         var taskInput = document.getElementById('taskInput');
@@ -77,19 +77,21 @@ document.addEventListener('DOMContentLoaded', function () {
         closeChildInfoPopup();
     }
 
-    // Function to close child information popup
     function closeChildInfoPopup() {
-        var overlay = document.getElementById('overlay');
-        var childInfoPopup = document.getElementById('childInfoPopup');
+            var overlay = document.getElementById('overlay');
+            var childInfoPopup = document.getElementById('childInfoPopup');
+    
+            overlay.style.display = 'none';
+            childInfoPopup.style.display = 'none';
+        }
 
-        overlay.style.display = 'none';
-        childInfoPopup.style.display = 'none';
-    }
+// Functions for Analog Clock with Digital Readout
+
 
     // Attach functions to buttons
     document.getElementById('addTaskBtn').addEventListener('click', addTask);
     document.getElementById('childInfoBtn').addEventListener('click', openChildInfoPopup);
-    document.getElementById('saveChildInfoBtn').addEventListener('click', saveChildInfo);
+    // document.getElementById('saveChildInfoBtn').addEventListener('click', saveChildInfo);
     document.getElementById('closePopup').addEventListener('click', closeChildInfoPopup);
 
     // Initialize Materialize tooltips
@@ -99,6 +101,67 @@ document.addEventListener('DOMContentLoaded', function () {
     // Materialize checkboxes don't need explicit initialization
 
     // Initialize Materialize components (if needed)
-    // var otherElems = document.querySelectorAll('.other-class');
-    // M.OtherComponent.init(otherElems);
-});
+    var otherElems = document.querySelectorAll('.other-class');
+    M.OtherComponent.init(otherElems);
+
+// Initial call to set the clock when the page loads
+setInterval(updateClock, 1000);
+updateClock();
+
+// });
+
+function updateClock() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    // if(seconds !== 0){
+
+    
+    // Update analog clock hands
+    let hourHand = document.getElementById('hourHand');
+    let minuteHand = document.getElementById('minuteHand');
+    let secondHand = document.getElementById('secondHand');
+
+    let hourDeg = (hours % 12 + minutes / 60) * 30;
+    let minuteDeg = (minutes + seconds / 60) * 6;
+    let secondDeg = (seconds / 60) * 360;
+    
+    console.log(secondDeg);
+    hourHand.style.transform = `rotate(${hourDeg}deg)`;
+    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+    secondHand.style.transform = `rotate(${secondDeg}deg)`;
+
+    // Function to close child information popup
+    // function closeChildInfoPopup() {
+    //     var overlay = document.getElementById('overlay');
+    //     var childInfoPopup = document.getElementById('childInfoPopup');
+
+    //     overlay.style.display = 'none';
+    //     childInfoPopup.style.display = 'none';
+    // }
+    // Update digital clock
+    let digitalClock = document.getElementById('digitalClock');
+    let timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    digitalClock.textContent = timeString;
+    // }else{
+    //     seconds = 60;
+    //     let hourHand = document.getElementById('hourHand');
+    //     let minuteHand = document.getElementById('minuteHand');
+    //     let secondHand = document.getElementById('secondHand');
+
+    //     let hourDeg = (hours % 12 + minutes / 60) * 30;
+    //     let minuteDeg = (minutes + seconds / 60) * 6;
+    //     let secondDeg = (seconds / 60) * 360;
+    
+    //     console.log(secondDeg, seconds);
+
+    //     hourHand.style.transform = `rotate(${hourDeg}deg)`;
+    //     minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+    //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    // }
+}
+// // Initial call to set the clock when the page loads
+// updateClock();
+

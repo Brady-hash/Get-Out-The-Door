@@ -1,4 +1,154 @@
 #childInfoTableContainer {
     text-align: center;
     margin-top: 10px; /* Adjust as needed */
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+}
+
+#taskInput {
+    width: 70%;
+    padding: 8px;
+    margin: 10px 0;
+}
+
+#taskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.taskItem {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    justify-content: space-between;
+}
+
+.taskItem input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+}
+
+#childInfoPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+#childInfoContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    max-width: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#childName,
+#childAge,
+#childGender {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+#closePopup {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clockContainer {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+#analogClock {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    background: url('../images/clockface.jpg') center center; 
+    background-size: cover;
+}
+
+/* .overlay {
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%; /* Adjust this value to control the starting point of the overlay */
+    /* background-color: rgba(120, 37, 37, 0.5); /* Adjust the alpha value for transparency */
+    /* clip-path: polygon(50% 50%, 100% 50%, 100% 0, 50% 0, 50% 50%, 0 50%, 0 100%, 50% 100%) ellipse(50% 50% at 50% 50%); */
+
+/* } */
+
+.hand {
+    position: absolute;
+    background-color: #333;
+    transform-origin: 50% 100%;
+    /* transform: rotate(90deg); */
+    /* transition: transform 0.5s cubic-bezier(0.4, 2.8, 0.3, 1); */
+  }
+
+#hourHand {
+height: 40px;
+width: 6px;
+top: 60px;
+left: 100px;
+}
+#minuteHand {
+    height: 60px;
+    width: 4px;
+    top: 40px;
+    left: 100px;
+}
+#secondHand {
+    height: 70px;
+    width: 2px;
+    top: 30px;
+    left: 100px
+}
+
+#digitalClock {
+    font-size: 20px;
+    margin-top: 10px;
 }
