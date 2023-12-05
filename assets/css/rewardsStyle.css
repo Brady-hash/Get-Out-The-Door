@@ -1,0 +1,111 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 0;
+    background-color: #3498db;
+    color: #fff;
+    align-items: center;
+}
+header h1{
+    margin: 0;
+    margin-top: 5px;
+    font-size: 3em;
+}
+
+#navButtons{
+    text-align: center;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#rewards {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+.rewardContainers {
+    width: calc(33.33% - 20px);
+    margin: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 0px;
+    text-align: center;
+}
+
+.rewardsHeadings p {
+    margin: 0px;
+}
+
+.rewardContainers img {
+    width: 50%;
+    height: auto;
+}
+
+.rewardsHeadings {
+    background-color: #3498db;
+}
+
+.kidBoxes {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+}
+
+
+.kidInfo {
+    display: flex;
+    justify-content: start;
+}
+.color0{
+    background-color: red;
+}
+.color1{
+    background-color:orange ;
+
+}
+.color2{
+    background-color:yellow ;
+
+}
+.color3{
+    background-color:green ;
+
+}
+.color4{
+    background-color: blue;
+
+}
+#searchContainer {
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    padding: 8px;
+}
+
+#searchButton {
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#homeButton {
+    padding: 8px 15px;
+    cursor: pointer;
+}
