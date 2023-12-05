@@ -34,7 +34,6 @@ function displayChildInfo(childInfo){
     childRow.classList.add('childInfoRow');
     childRow.textContent = 'Name: ${childInfo.name}, Age: ${childInfo.age}, Gender: ${childInfo.gender}';
     childInfoContainer.appendChild(childRow);
-
 }
 
 // Functions for Child Information Popup
