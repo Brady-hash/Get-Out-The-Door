@@ -1,3 +1,4 @@
+
 function addTask() {
     const taskInput = document.getElementById('taskInput');
     const taskList = document.getElementById('taskList');
@@ -91,3 +92,4 @@ setInterval(updateClock, 1000);
 
 // Initial call to set the clock when the page loads
 updateClock();
+
