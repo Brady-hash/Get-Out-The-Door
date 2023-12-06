@@ -10,8 +10,11 @@
 
     <!-- Add Material Icons library -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <!-- Add Day.JS for Weather-->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
+
+
     <title>Kids Morning Tasks</title>
 
 </head>
@@ -21,9 +24,23 @@
         <div class="col s4">
             <!-- Weather Section -->
             <div class="card">
+                 <!-- Matt's weather code: -->
                 <div class="card-content">
-                    <span class="card-title">Weather</span>
-                    <!-- Your weather content goes here -->
+                    <span class="card-title">Current Weather</span>
+                    <div id="search-container">
+                        <h3 id="search-header">Enter your city</h3>
+                        <form id="weather-search">
+                            <label class="form-label" for="city"></label>
+                            <input name="city" id="city" type="text" autofocus="true">
+                            <button type="submit" class="btn-city-search">Search</button>
+                        </form>
+                        <p id="forecastCityName"></p>
+                        <p id="todays-date"></p>
+                        <p id="current-temp"></p>
+                        <span id="weather-icons"></span>
+                        <p id="current-conditions"></p>
+                        <span id="change-city"></span>
+                    </div>
                 </div>
             </div>
 
