@@ -105,3 +105,28 @@ homeButton.addEventListener("click", function() {
 populateRewards();
 createKids();
 
+setInterval(updateClock, 1000);
+updateClock();
+
+function updateClock() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    // if(seconds !== 0){
+
+    
+    // Update analog clock hands
+    let hourHand = document.getElementById('hourHand');
+    let minuteHand = document.getElementById('minuteHand');
+    let secondHand = document.getElementById('secondHand');
+
+    let hourDeg = (hours % 12 + minutes / 60) * 30;
+    let minuteDeg = (minutes + seconds / 60) * 6;
+    let secondDeg = (seconds / 60) * 360;
+    
+    console.log(secondDeg);
+    hourHand.style.transform = `rotate(${hourDeg}deg)`;
+    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+    secondHand.style.transform = `rotate(${secondDeg}deg)`;
+}

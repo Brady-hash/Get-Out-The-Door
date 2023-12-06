@@ -1,9 +1,9 @@
 #childInfoTableContainer {
-    text-align: center;
     margin-top: 10px; /* Adjust as needed */
     padding: 10px;
-    background-color: #3498db;
-    color: #fff;
+    color:black;
+    background-color: rgb(213, 209, 90);
+    border-radius: 10px;
 }
 
 #taskInput {
@@ -36,7 +36,6 @@ footer {
     text-align: center;
     margin-top: 20px;
     padding: 10px;
-    background-color: #3498db;
     color: #fff;
 }
 
@@ -65,11 +64,9 @@ footer {
 }
 
 #childInfoContainer {
-    position: fixed;
     top: 0;
     right: 0;
     padding: 20px;
-    max-width: 300px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -151,4 +148,72 @@ left: 100px;
 #digitalClock {
     font-size: 20px;
     margin-top: 10px;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.child-name {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px; /* Adjust as needed */
+    /* Add other styling properties */
+}
+.child-name button{
+    max-width: 22px;
+    max-height: 22px;
+    justify-content: center;
+    align-items: center;
+}
+.collection-item{
+    margin: 4px;
+    padding: 6px;
+    list-style: none;
+    border: 1px solid black;
+    border-radius: 10px;
+
+}
+
+.collection-item label{
+    color: black;
+
+}
+.collection-item li{
+    border: 1px solid black;
 }

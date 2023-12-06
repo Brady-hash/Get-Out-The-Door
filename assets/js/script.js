@@ -1,136 +1,149 @@
-// document.addEventListener('DOMContentLoaded', function () {
-    // Function to add a task
-    function addTask() {
-        var taskInput = document.getElementById('taskInput');
-        var taskList = document.getElementById('taskList');
+document.addEventListener('DOMContentLoaded', function () {
+    M.AutoInit();
 
-        if (taskInput.value.trim() !== '') {
-            var li = document.createElement('li');
-            li.className = 'collection-item';
+    const childNamesJSON = localStorage.getItem('childNames');
+    let childNames = [];
 
-            // Checkbox
-            var checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'filled-in';
-            checkbox.id = 'taskCheckbox'; // Add a unique ID for each checkbox if needed
-            li.appendChild(checkbox);
+    if (!childNamesJSON) {
+        openChildNameModal();
+    } else {
+        childNames = JSON.parse(childNamesJSON);
+        displayChildNames();
+    }
 
-            // Label for the checkbox
-            var label = document.createElement('label');
-            label.htmlFor = 'taskCheckbox'; // Use the same ID as the checkbox
-            label.textContent = taskInput.value;
-            li.appendChild(label);
-
-            // Delete button with Material Icons
-            var deleteButton = document.createElement('a');
-            deleteButton.href = '#';
-            deleteButton.className = 'secondary-content';
-            deleteButton.innerHTML = '<i class="material-icons">delete</i>';
-            deleteButton.addEventListener('click', function () {
-                li.remove();
-            });
-            li.appendChild(deleteButton);
-
-            taskList.appendChild(li);
-            taskInput.value = '';
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('addButton')) {
+            const childName = event.target.parentNode.id.split('_')[1];
+            addTask(childName);
         }
-    }
+    });
+});
 
-    // Function to open child information popup
-    function openChildInfoPopup() {
-        var overlay = document.getElementById('overlay');
-        var childInfoPopup = document.getElementById('childInfoPopup');
+var childsPoints = {}
 
-        overlay.style.display = 'block';
-        childInfoPopup.style.display = 'block';
-    }
+function openChildNameModal() {
+    const childNameModal = document.getElementById('childNameModal');
+    const instance = M.Modal.init(childNameModal, {dismissible: false});
+    instance.open();
+}
 
-    // Function to save child information
-    function saveChildInfo() {
-        var childName = document.getElementById('childName').value;
-        var childAge = document.getElementById('childAge').value;
-        var childGender = document.getElementById('childGender').value;
-        var childInfoContainer = document.getElementById('childInfoContainer');
+function saveChildName() {
+    const childNameInput = document.getElementById('childNameInput').value.trim();
+    let childNames = [];
 
-        // Create a new row in the table
-        var tableRow = document.createElement('tr');
-
-        // Add data cells to the row
-        var nameCell = document.createElement('td');
-        nameCell.textContent = childName;
-
-        var ageCell = document.createElement('td');
-        ageCell.textContent = childAge;
-
-        var genderCell = document.createElement('td');
-        genderCell.textContent = childGender;
-
-        // Append cells to the row
-        tableRow.appendChild(nameCell);
-        tableRow.appendChild(ageCell);
-        tableRow.appendChild(genderCell);
-
-        // Append the row to the table body
-        var tableBody = document.querySelector('#childInfoTable tbody');
-        tableBody.appendChild(tableRow);
-
-        closeChildInfoPopup();
-    }
-
-    function closeChildInfoPopup() {
-            var overlay = document.getElementById('overlay');
-            var childInfoPopup = document.getElementById('childInfoPopup');
-    
-            overlay.style.display = 'none';
-            childInfoPopup.style.display = 'none';
+    if (childNameInput !== '') {
+        const childNamesJSON = localStorage.getItem('childNames');
+        
+        if (childNamesJSON) {
+            childNames = JSON.parse(childNamesJSON);
         }
 
-// Functions for Analog Clock with Digital Readout
+        childNames.push(childNameInput);
+        localStorage.setItem('childNames', JSON.stringify(childNames));
 
+        document.getElementById('childNameInput').value = ''; // Clear the textbox
+        displayChildNames();
+    }
+}
 
-    // Attach functions to buttons
-    document.getElementById('addTaskBtn').addEventListener('click', addTask);
-    document.getElementById('childInfoBtn').addEventListener('click', openChildInfoPopup);
-    // document.getElementById('saveChildInfoBtn').addEventListener('click', saveChildInfo);
-    document.getElementById('closePopup').addEventListener('click', closeChildInfoPopup);
+function closeChildNameModal() {
+    const childNameModal = document.getElementById('childNameModal');
+    const instance = M.Modal.getInstance(childNameModal);
+    instance.close();
+}
 
-    // Initialize Materialize tooltips
-    var tooltipElems = document.querySelectorAll('.tooltipped');
-    M.Tooltip.init(tooltipElems);
-    
-    // Materialize checkboxes don't need explicit initialization
+function displayChildNames() {
+    const childInfoContainer = document.getElementById('childInfoTableContainer');
+    const childNamesJSON = localStorage.getItem('childNames');
+    let childNames = [];
 
-    // Initialize Materialize components (if needed)
-    var otherElems = document.querySelectorAll('.other-class');
-    M.OtherComponent.init(otherElems);
+    if (childNamesJSON) {
+        childNames = JSON.parse(childNamesJSON);
+    }
 
-// Initial call to set the clock when the page loads
-setInterval(updateClock, 1000);
-updateClock();
+    childInfoContainer.innerHTML = ''; // Clear previous content
 
-// });
+    childNames.forEach(function (childName) {
+        const childNameDiv = document.createElement('div');
+        childNameDiv.textContent = childName;
+        childNameDiv.id = `childName_${childName}`; // Add a class for styling if needed
+        childNameDiv.style.marginBottom = '25px'; 
 
-function updateClock() {
-    let now = new Date();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    // if(seconds !== 0){
+        // Create "+" button
+        const addButton = document.createElement('button');
+        addButton.textContent = '+';
+        addButton.classList.add('addButton'); // Add the class for the event listener
 
-    
-    // Update analog clock hands
-    let hourHand = document.getElementById('hourHand');
-    let minuteHand = document.getElementById('minuteHand');
-    let secondHand = document.getElementById('secondHand');
+        // Create "i" button
+        const infoButton = document.createElement('button');
+        infoButton.textContent = 'i';
+        infoButton.addEventListener('click', function () {
+            console.log('info for ' + childName);
+        });
 
-    let hourDeg = (hours % 12 + minutes / 60) * 30;
-    let minuteDeg = (minutes + seconds / 60) * 6;
-    let secondDeg = (seconds / 60) * 360;
-    
-    console.log(secondDeg);
-    hourHand.style.transform = `rotate(${hourDeg}deg)`;
-    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-    secondHand.style.transform = `rotate(${secondDeg}deg)`;
+        // Add buttons to the childNameDiv
+        childNameDiv.appendChild(document.createTextNode('\u00A0'));
+        childNameDiv.appendChild(addButton);
+        childNameDiv.appendChild(infoButton);
+
+        childInfoContainer.appendChild(childNameDiv);
+
+        // Add event listener to the addButton
+        addButton.addEventListener('click', function () {
+            addTask(childName);
+        });
+    });
+}
+
+var overlay = document.getElementById('overlay');
+var childInfoPopup = document.getElementById('childInfoPopup');
+
+overlay.style.display = 'none';
+childInfoPopup.style.display = 'none';
+
+function addTask(childName) {
+    const taskInput = document.getElementById('taskInput');
+    const childTasksContainer = document.getElementById(`childName_${childName}`);
+
+    // Check if the task already exists
+    const existingTasks = Array.from(childTasksContainer.querySelectorAll('.collection-item label'));
+    const isTaskDuplicate = existingTasks.some(taskLabel => taskLabel.textContent === taskInput.value.trim());
+
+    if (!isTaskDuplicate && taskInput.value.trim() !== '') {
+        const taskListItem = document.createElement('li');
+        taskListItem.className = 'collection-item';
+
+        const completeButton = document.createElement('a');
+        completeButton.href = '#';
+        completeButton.className = 'secondary-content';
+        completeButton.innerHTML = '<i class="material-icons">check</i>';
+        completeButton.addEventListener('click', function() {
+            taskListItem.remove();
+        });
+        taskListItem.appendChild(completeButton);
+
+        // Label for the checkbox
+        const label = document.createElement('label');
+        label.htmlFor = `taskCheckbox_${childName}`;
+        label.textContent = taskInput.value; // Use the task input value
+        taskListItem.appendChild(label);
+
+        // Delete button with Material Icons
+        const deleteButton = document.createElement('a');
+        deleteButton.href = '#';
+        deleteButton.className = 'secondary-content';
+        deleteButton.innerHTML = '<i class="material-icons">delete</i>';
+        deleteButton.addEventListener('click', function () {
+            taskListItem.remove();
+        });
+        taskListItem.appendChild(deleteButton);
+
+        childTasksContainer.appendChild(taskListItem);
+        // Do not clear the task input value after adding the task
+        // taskInput.value = '';
+    }
+}
+
 
     // Function to close child information popup
     // function closeChildInfoPopup() {
@@ -160,8 +173,9 @@ function updateClock() {
     //     minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
     //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
     //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    // }
-}
+    // 
 // // Initial call to set the clock when the page loads
-// updateClock();
-
+// updateClock();addButton.addEventListener('click', function () {
+    addButton.addEventListener('click', function () {
+        addTask(childName);
+    });
