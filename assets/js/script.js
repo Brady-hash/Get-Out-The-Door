@@ -101,8 +101,8 @@
     // Materialize checkboxes don't need explicit initialization
 
     // Initialize Materialize components (if needed)
-    var otherElems = document.querySelectorAll('.other-class');
-    M.OtherComponent.init(otherElems);
+    // var otherElems = document.querySelectorAll('.other-class');
+    // M.OtherComponent.init(otherElems);
 
 // Initial call to set the clock when the page loads
 setInterval(updateClock, 1000);
