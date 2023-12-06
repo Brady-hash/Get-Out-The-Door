@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    M.AutoInit();
+    // M.AutoInit();
 
+    // Clear child names from local storage when the page is rendered
+    localStorage.removeItem('childNames');
+    
     const childNamesJSON = localStorage.getItem('childNames');
     let childNames = [];
 

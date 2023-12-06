@@ -10,7 +10,6 @@
 
     <!-- Add Material Icons library -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Kids Morning Tasks</title>
 
@@ -23,7 +22,7 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Weather</span>
-                    <!-- Your weather content goes here -->
+                    <!-- Weather content goes here -->
                 </div>
             </div>
 
@@ -55,25 +54,15 @@
                     <label for="taskInput">Add a task:</label>
                 </div>
 
-               
                 <!-- Task List -->
-                <ul id="taskList" class="collection">
-                     <li class="collection-item">
-                        <label>
-                            <input type="checkbox" checked="checked" />
-                            <span>Yellow</span>
-                          </label>
-                        <a href="#" class="secondary-content">
-                            <i class="material-icons">delete</i></a></li>
-                </ul>
+                <ul id="taskList" class="collection"></ul>
 
 
                 <!-- Table to Display Child Information -->
-                <div id="childInfoTableContainer">
-                </div>
-            <!-- Child Information Popup -->
-
-          </div>  <!-- Child Information Display Container -->
+                <div id="childInfoTableContainer"></div>
+                
+            </main>
+        </div>  
         
     </div>
     <div id="childNameModal" class="modal">
@@ -93,10 +82,8 @@
         <p>2023 Kids Morning Tasks</p>
     </footer>
 
-    <!-- Add Materialize JS (optional, but some components may require it) -->
+    <!-- Added Materialize JS (optional, but some components may require it) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
-    <!-- Add your JavaScript file -->
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
