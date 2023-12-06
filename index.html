@@ -55,10 +55,7 @@
                     <label for="taskInput">Add a task:</label>
                 </div>
 
-                <!-- Buttons for Adding Tasks, Child Information, and Task List -->
-                <button id="addTaskBtn" class="waves-effect waves-light btn">Add Task</button>
-                <button id="childInfoBtn" class="waves-effect waves-light btn">Child Information</button>
-
+               
                 <!-- Task List -->
                 <ul id="taskList" class="collection">
                      <li class="collection-item">
@@ -73,52 +70,28 @@
 
                 <!-- Table to Display Child Information -->
                 <div id="childInfoTableContainer">
-                    <table id="childInfoTable" class="centered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Gender</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
                 </div>
-            </main>
-
             <!-- Child Information Popup -->
-            <div id="overlay" class="overlay"></div>
-            <div id="childInfoPopup" class="popup">
-                <!-- Input Fields for Child Information -->
-                <label for="childName">Child's Name:</label>
-                <input type="text" id="childName" placeholder="Enter name">
 
-                <label for="childAge">Child's Age:</label>
-                <input type="number" id="childAge" placeholder="Enter age">
-
-                <label for="childGender">Child's Gender:</label>
-                <select id="childGender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-
-                <!-- Buttons to Save and Close Information Popup -->
-                <div class="button-container">
-                    <button id="saveChildInfoBtn" onclick="saveChildInfo()">Save</button>
-                    <button id="closePopup" onclick="closeChildInfoPopup()">Close</button>
-                </div>
-            </div>
-
-            <footer class="teal lighten-2 white-text center-align">
-                <p>2023 Kids Morning Tasks</p>
-            </footer>
-
-            <!-- Child Information Display Container -->
-            <div id="childInfoContainer" class="container"></div>
-        </div>
+          </div>  <!-- Child Information Display Container -->
         
     </div>
+    <div id="childNameModal" class="modal">
+        <div class="modal-content">
+            <h4>Child's Name</h4>
+            <div class="input-field">
+                <input type="text" id="childNameInput" class="validate" placeholder="Enter child's name">
+            </div>
+            <div class="button-container">
+                <button id="saveChildInfoBtn" class="waves-effect waves-light btn" onclick="saveChildName()">Save</button>
+                <button id="doneBtn" class="waves-effect waves-light btn" onclick="closeChildNameModal()">Done</button>
+                
+            </div>
+        </div>
+    </div>
+    <footer class="teal lighten-2 white-text center-align">
+        <p>2023 Kids Morning Tasks</p>
+    </footer>
 
     <!-- Add Materialize JS (optional, but some components may require it) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
