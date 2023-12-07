@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let minuteDeg = (minutes + seconds / 60) * 6;
         let secondDeg = (seconds / 60) * 360;
         
-        console.log(secondDeg);
+      
         hourHand.style.transform = `rotate(${hourDeg}deg)`;
         minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
         secondHand.style.transform = `rotate(${secondDeg}deg)`;
@@ -78,7 +78,7 @@ let setTimeButton = document.getElementById("set-time-btn");
 // populate dropdown menus with hours/mins
 function populateDropdowns() {
     
-    console.log('populateDropdowns initialized');
+   
     const hourDropdown = document.getElementById("hour");
     for (let i = 0; i < 24; i++) {
       const option = document.createElement("option");
@@ -259,23 +259,6 @@ function updateOverlayColor(totalMinutes) {
         localStorage.setItem('savedCity', cityString);
     }    
     
-    // function hideSearchBox(){
-    //     citySearchForm.style.display = 'none';
-    // }
-    
-    // function showSearchBox(){
-    //     citySearchForm.style.display = 'block';
-    // }
-    
-    // function createChangeCityButton() {
-    //     let changeCityButton = document.createElement('button');
-    //     changeCityButton.textContent = 'Change City';
-    //     changeCityButton.addEventListener('click', function(){
-    //         showSearchBox();
-    //     });
-    //     document.body.appendChild(changeCityButton);
-    // }
-    // }
     changeCityBtn.addEventListener('click', function(event){
         event.preventDefault();
         resetForm();
@@ -295,10 +278,7 @@ function updateOverlayColor(totalMinutes) {
     loadSavedCity();
     populateDropdowns();
     
-//commented this out as it kept throwing errors, not sure what it's for - Matt
-//     addButton.addEventListener('click', function () {
-//         addTask(childName);
-// });
+
 });
 
 function openChildNameModal() {
