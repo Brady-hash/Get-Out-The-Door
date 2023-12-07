@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
 
 
-    <title>Kids Morning Tasks</title>
+    <title>Get Out The Door!</title>
 
 </head>
 <body class="container">
@@ -34,12 +34,15 @@
                             <input name="city" id="city" type="text" autofocus="true">
                             <button type="submit" class="btn-city-search">Search</button>
                         </form>
+                        <div id="display-forecast">
                         <p id="forecastCityName"></p>
                         <p id="todays-date"></p>
                         <p id="current-temp"></p>
                         <span id="weather-icons"></span>
                         <p id="current-conditions"></p>
-                        <span id="change-city"></span>
+                        </div>
+                        <button type="button" id="change-city-btn">Change City</button>
+
                     </div>
                 </div>
             </div>
@@ -47,14 +50,29 @@
             <!-- Analog Clock with Digital Readout -->
             <div id="clockContainer" class="card">
                 <div class="card-content">
-                    <span class="card-title">Analog Clock</span>
+                    <span class="card-title">What Time Is It?</span>
                     <div id="analogClock">
-                        <div class="overlay"></div>
+                        <div class="clockOverlay"></div>
                         <div id="hourHand" class="hand"></div>
                         <div id="minuteHand" class="hand"></div>
                         <div id="secondHand" class="hand"></div>
                     </div>
                     <div id="digitalClock" class="clock"></div>
+                    <!-- NEW CODE -->
+                    <div id="timeSelector">
+                        <div class="card-content">
+                          <span class="card-title">Set Get Out The Door Time:</span>
+                          <div class="time-selector">
+                            <label for="hour">Hour:</label>
+                            <select id="hour" name="hour"></select>
+                            <label for="minute">Minute:</label>
+                            <select id="minute" name="minute"></select>
+                      
+                            <button type="button" id="set-time-btn">Set Time</button>
+                          </div>
+                        </div>
+                      </div>
+<!-- END NEW CODE -->
                 </div>
             </div>
         </div>
@@ -62,7 +80,7 @@
         <!-- Right Column -->
         <div class="col s8">
             <header class="teal lighten-2 white-text center-align">
-                <h1>Kids Morning Tasks</h1>
+                <h1>Get Out The Door!</h1>
             </header>
 
             <main>
