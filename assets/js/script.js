@@ -1,8 +1,17 @@
+let childNames = [];
+let childsPoints = {};
+
 document.addEventListener('DOMContentLoaded', function () {
     M.AutoInit();
 
     const childNamesJSON = localStorage.getItem('childNames');
-    let childNames = [];
+    let childsPointsJSON = localStorage.getItem('childsPoints');
+
+    if (!childsPointsJSON) {
+        localStorage.setItem('childsPoints', JSON.stringify(childsPoints));
+    } else {
+        childsPoints = JSON.parse(childsPointsJSON);
+    }
 
     if (!childNamesJSON) {
         openChildNameModal();
@@ -19,8 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-var childsPoints = {}
-
 function openChildNameModal() {
     const childNameModal = document.getElementById('childNameModal');
     const instance = M.Modal.init(childNameModal, {dismissible: false});
@@ -29,11 +36,10 @@ function openChildNameModal() {
 
 function saveChildName() {
     const childNameInput = document.getElementById('childNameInput').value.trim();
-    let childNames = [];
 
     if (childNameInput !== '') {
         const childNamesJSON = localStorage.getItem('childNames');
-        
+
         if (childNamesJSON) {
             childNames = JSON.parse(childNamesJSON);
         }
@@ -41,7 +47,10 @@ function saveChildName() {
         childNames.push(childNameInput);
         localStorage.setItem('childNames', JSON.stringify(childNames));
 
-        document.getElementById('childNameInput').value = ''; // Clear the textbox
+        childsPoints[childNameInput] = 0;
+        localStorage.setItem('childsPoints', JSON.stringify(childsPoints));
+
+        document.getElementById('childNameInput').value = '';
         displayChildNames();
     }
 }
@@ -55,57 +64,45 @@ function closeChildNameModal() {
 function displayChildNames() {
     const childInfoContainer = document.getElementById('childInfoTableContainer');
     const childNamesJSON = localStorage.getItem('childNames');
-    let childNames = [];
 
     if (childNamesJSON) {
         childNames = JSON.parse(childNamesJSON);
     }
 
-    childInfoContainer.innerHTML = ''; // Clear previous content
+    childInfoContainer.innerHTML = '';
 
     childNames.forEach(function (childName) {
         const childNameDiv = document.createElement('div');
         childNameDiv.textContent = childName;
-        childNameDiv.id = `childName_${childName}`; // Add a class for styling if needed
-        childNameDiv.style.marginBottom = '25px'; 
+        childNameDiv.id = `childName_${childName}`;
+        childNameDiv.style.marginBottom = '25px';
 
-        // Create "+" button
         const addButton = document.createElement('button');
         addButton.textContent = '+';
-        addButton.classList.add('addButton'); // Add the class for the event listener
+        addButton.classList.add('addButton');
 
-        // Create "i" button
         const infoButton = document.createElement('button');
         infoButton.textContent = 'i';
         infoButton.addEventListener('click', function () {
             console.log('info for ' + childName);
         });
 
-        // Add buttons to the childNameDiv
         childNameDiv.appendChild(document.createTextNode('\u00A0'));
         childNameDiv.appendChild(addButton);
         childNameDiv.appendChild(infoButton);
 
         childInfoContainer.appendChild(childNameDiv);
 
-        // Add event listener to the addButton
         addButton.addEventListener('click', function () {
             addTask(childName);
         });
     });
 }
 
-var overlay = document.getElementById('overlay');
-var childInfoPopup = document.getElementById('childInfoPopup');
-
-overlay.style.display = 'none';
-childInfoPopup.style.display = 'none';
-
 function addTask(childName) {
     const taskInput = document.getElementById('taskInput');
     const childTasksContainer = document.getElementById(`childName_${childName}`);
 
-    // Check if the task already exists
     const existingTasks = Array.from(childTasksContainer.querySelectorAll('.collection-item label'));
     const isTaskDuplicate = existingTasks.some(taskLabel => taskLabel.textContent === taskInput.value.trim());
 
@@ -117,18 +114,19 @@ function addTask(childName) {
         completeButton.href = '#';
         completeButton.className = 'secondary-content';
         completeButton.innerHTML = '<i class="material-icons">check</i>';
-        completeButton.addEventListener('click', function() {
+        completeButton.addEventListener('click', function () {
             taskListItem.remove();
+            // Increment points when the task is completed
+            childsPoints[childName] = (childsPoints[childName] || 0) + 10;
+            localStorage.setItem('childsPoints', JSON.stringify(childsPoints));
         });
         taskListItem.appendChild(completeButton);
 
-        // Label for the checkbox
         const label = document.createElement('label');
         label.htmlFor = `taskCheckbox_${childName}`;
-        label.textContent = taskInput.value; // Use the task input value
+        label.textContent = taskInput.value;
         taskListItem.appendChild(label);
 
-        // Delete button with Material Icons
         const deleteButton = document.createElement('a');
         deleteButton.href = '#';
         deleteButton.className = 'secondary-content';
@@ -139,43 +137,5 @@ function addTask(childName) {
         taskListItem.appendChild(deleteButton);
 
         childTasksContainer.appendChild(taskListItem);
-        // Do not clear the task input value after adding the task
-        // taskInput.value = '';
     }
 }
-
-
-    // Function to close child information popup
-    // function closeChildInfoPopup() {
-    //     var overlay = document.getElementById('overlay');
-    //     var childInfoPopup = document.getElementById('childInfoPopup');
-
-    //     overlay.style.display = 'none';
-    //     childInfoPopup.style.display = 'none';
-    // }
-    // Update digital clock
-    let digitalClock = document.getElementById('digitalClock');
-    let timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    digitalClock.textContent = timeString;
-    // }else{
-    //     seconds = 60;
-    //     let hourHand = document.getElementById('hourHand');
-    //     let minuteHand = document.getElementById('minuteHand');
-    //     let secondHand = document.getElementById('secondHand');
-
-    //     let hourDeg = (hours % 12 + minutes / 60) * 30;
-    //     let minuteDeg = (minutes + seconds / 60) * 6;
-    //     let secondDeg = (seconds / 60) * 360;
-    
-    //     console.log(secondDeg, seconds);
-
-    //     hourHand.style.transform = `rotate(${hourDeg}deg)`;
-    //     minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-    //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    // 
-// // Initial call to set the clock when the page loads
-// updateClock();addButton.addEventListener('click', function () {
-    addButton.addEventListener('click', function () {
-        addTask(childName);
-    });
