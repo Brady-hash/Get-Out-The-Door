@@ -1,8 +1,9 @@
 var homeButton = document.getElementById("homeButton");
+var storedChildsPoints = JSON.parse(localStorage.getItem('childsPoints')) || {};
 
 
 var rewards = document.getElementById("rewards");
-var kids = document.getElementById("kids");
+var kidszContainer = document.getElementById("kids");
 const apiKey = 'A21B22AEC2B84B2CA0DCF69475DA586C';
 
 function populateRewards() {
@@ -13,7 +14,7 @@ function populateRewards() {
         category_id: '5xtb0',
         delivery_type: 'ship_to_home',
         include_out_of_stock: false,
-        sort_by: 'best_seller'
+        sort_by: 'featured'
     };
 
     const queryString = new URLSearchParams(queryParams).toString();
@@ -27,16 +28,12 @@ function populateRewards() {
             return response.json();
         })
         .then(data => {
-            // Check if category_results is defined
             const categoryResults = data.category_results || [];
-            
-            // Limit to the first 10 results
-            return categoryResults.slice(0, 9);
+
+            return categoryResults.slice(0, 15);
         })
         .then(categoryResults => {
-            console.log(categoryResults);
             for (const result of categoryResults) {
-                // Extract necessary properties from each result
                 const { offers, product } = result;
 
                 var rewardContainers = document.createElement('div');
@@ -51,6 +48,13 @@ function populateRewards() {
                 var itemPrice = document.createElement('button');
                 itemPrice.textContent = (offers.primary.price * 100 + "points");
 
+                // Use a closure to capture the current value of itemPrice
+                itemPrice.addEventListener('click', (function(price) {
+                    return function(event) {
+                        showPurchase(storedChildsPoints, price);
+                    };
+                })(itemPrice));
+
                 var itemImg = document.createElement('img');
                 itemImg.src = product.main_image;
                 itemImg.alt = product.title;
@@ -60,12 +64,10 @@ function populateRewards() {
                 itemLink.target = '_blank';
                 itemLink.appendChild(itemImg);
 
-
                 rewardsHeading.append(itemName);
                 rewardsHeading.append(itemPrice);
                 rewardContainers.append(rewardsHeading);
                 rewardContainers.append(itemLink);
-                // rewardContainers.append(itemLink);
                 rewards.append(rewardContainers);
             }
         })
@@ -74,59 +76,131 @@ function populateRewards() {
         });
 }
 
+
 function createKids() {
+    const kidsContainer = document.getElementById('kids');
 
-    for (let i = 0; i < 3; i++) {
-        var kidBox = document.createElement('div');
+    // Clear existing child info divs
+    kidsContainer.innerHTML = '';
+
+    // Counter for adding classes
+    let counter = 0;
+
+    for (const childName in storedChildsPoints) {
+        let kidBox = document.createElement('div');
         kidBox.classList.add('kidsBoxes');
-        kidBox.classList.add('color' + i);
 
-        var kidInfo = document.createElement('div');
+        let kidInfo = document.createElement('div');
         kidInfo.classList.add('kidInfo');
+        kidInfo.classList.add(`color${counter}`); // Add class like color0, color1, color2, etc.
 
-        var kidName = document.createElement('p');
-        kidName.textContent = "Kid" + (i + 1) +"'s" + " ";
+        let kidNameElement = document.createElement('p');
+        kidNameElement.style.marginRight = '5px';
+        kidNameElement.style.marginLeft = '5px';
+        kidNameElement.textContent = childName + "'s  ";
 
-        var points = document.createElement('p');
-        points.textContent = "points: " + i;
-  
+        let pointsElement = document.createElement('p');
+        let points = storedChildsPoints[childName] || 0;
+        pointsElement.textContent = ` points: ${points}`;
 
-        kidInfo.appendChild(kidName);
-        kidInfo.appendChild(points);
+        kidInfo.appendChild(kidNameElement);
+        kidInfo.appendChild(pointsElement);
         kidBox.appendChild(kidInfo);
-        kids.appendChild(kidBox);
+        kidsContainer.appendChild(kidBox);
+
+        // Increment the counter for the next child
+        counter++;
     }
 }
 
-homeButton.addEventListener("click", function() {
-    window.location.href = "index.html";
+
+function showPurchase(storedChildsPoints, itemPrice) {
+    // Create modal popup
+    var modal = document.createElement('div');
+    modal.classList.add('modal');
+
+    // Create content for the modal
+    var modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    // Loop through storedChildsPoints and create a div for each child
+    for (const childName in storedChildsPoints) {
+        var childDiv = document.createElement('div');
+
+        // Display child's points
+        var pointsText = document.createElement('span');
+        pointsText.textContent = `${childName}: ${storedChildsPoints[childName]} points`;
+
+        // Create check button
+        var checkButton = document.createElement('button');
+        checkButton.textContent = 'Check';
+        checkButton.addEventListener('click', function () {
+            subtractPoints(childName, itemPrice);
+        });
+
+        childDiv.appendChild(pointsText);
+        childDiv.appendChild(checkButton);
+
+        // Append the child div to the modal content
+        modalContent.appendChild(childDiv);
+    }
+
+    // Add modal content to the modal
+    modal.appendChild(modalContent);
+
+    // Append the modal to the body
+    document.body.appendChild(modal);
+
+    // Display the modal by changing the display property
+    modal.style.display = 'flex';
+
+    // Add a click event listener to close the modal when clicking outside
+    window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    function subtractPoints(childName, itemPrice) {
+        // Extract the numeric value of the item price
+        var priceText = itemPrice.textContent.trim();
+        var priceValue = parseInt(priceText.match(/\d+/)[0], 10);
+    
+        console.log("Price Value:", priceValue);
+        console.log("Child's Points:", storedChildsPoints[childName]);
+    
+        // Check if the child has enough points
+        if (storedChildsPoints[childName] >= priceValue) {
+            // Subtract the price value from the child's points
+            storedChildsPoints[childName] -= priceValue;
+    
+            // Update the local storage with the new points value
+            localStorage.setItem('childsPoints', JSON.stringify(storedChildsPoints));
+    
+            closeModal();
+            createKids();
+        } else {
+            // If the child doesn't have enough points, show an error message or handle it accordingly
+            alert("Insufficient points for this purchase!");
+            closeModal(); // Close the modal
+        }
+    }
+    
+    
+} 
+
+function closeModal() {
+    var modal = document.querySelector('.modal');
+    if (modal) {
+        // Hide the modal
+        modal.style.display = 'none';
+        modal.remove();
+    }
+}
+
+homeButton.addEventListener('click', function() {
+    window.location.href = 'index.html';
 });
 
 populateRewards();
 createKids();
-
-setInterval(updateClock, 1000);
-updateClock();
-
-function updateClock() {
-    let now = new Date();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    // if(seconds !== 0){
-
-    
-    // Update analog clock hands
-    let hourHand = document.getElementById('hourHand');
-    let minuteHand = document.getElementById('minuteHand');
-    let secondHand = document.getElementById('secondHand');
-
-    let hourDeg = (hours % 12 + minutes / 60) * 30;
-    let minuteDeg = (minutes + seconds / 60) * 6;
-    let secondDeg = (seconds / 60) * 360;
-    
-    console.log(secondDeg);
-    hourHand.style.transform = `rotate(${hourDeg}deg)`;
-    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-    secondHand.style.transform = `rotate(${secondDeg}deg)`;
-}
