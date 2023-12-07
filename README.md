@@ -13,6 +13,9 @@ Once all children's names have been entered, you can proceed to:
 - enter the time you need to 'Get Out The Door' by and the clock will change colors as the target time approaches.
 - check off task items as they are completed, resulting in points for each kid being saved to redeem on the rewards page.
 
+## Screenshot
+
+![Application Screenshot](assets/images/GOTD%20Screenshot.png)
 
 ## Authors
 Matt S.
