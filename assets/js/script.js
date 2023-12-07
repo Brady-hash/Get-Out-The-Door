@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update the clock every second
     clockInterval = setInterval(updateClock, 1000);
 
-    // Update the overlay color
+    // update the overlay color
     overlayInterval = setInterval(updateOverlayColorCheck, 1000); 
 }
     
@@ -94,27 +94,9 @@ function populateDropdowns() {
 
     // calculate remaining minutes
     const timeDifference = parseInt(selectedMinute) - currentMinute;
-    // console.log('updateOverlayColor ', timeDifference);
-    //check to see if the clock reaches zero & update overlay color
-    // if (timeDifference > 0){
         updateOverlayColor(timeDifference);
-    //     console.log('updateOverlayColor!!!', timeDifference);
-    // } else if(timeDifference <= 0) {
-    //     clearOverlayColor;
-    //     console.log('Clear Overlay Color!!! WOO');
-
-    // } else {
-    //     return;
-    // }
 
 }
-
-// function clearOverlayColor(){
-//     let clockOverlay = document.querySelector('.clockOverlay');
-//     console.log('clearOverlayColor');
-//     clockOverlay.style.backgroundColor = 'white';
-
-// }
 
 
   function setTime() {
@@ -140,7 +122,6 @@ function populateDropdowns() {
 }
 
 function updateOverlayColor(totalMinutes) {
-    console.log('updateOverlayColor', totalMinutes);
     let clockOverlay = document.querySelector('.clockOverlay');
     if (totalMinutes >= 30) {
       clockOverlay.style.backgroundColor = 'green';
@@ -162,7 +143,6 @@ function updateOverlayColor(totalMinutes) {
   
   setTimeButton.addEventListener('click', function(event){
     event.preventDefault();
-    console.log('set time clicked');
     setTime();
   })
   
@@ -180,17 +160,13 @@ function updateOverlayColor(totalMinutes) {
         let savedCity = JSON.parse(localStorage.getItem('savedCity'));
         if(savedCity) {
             getCurrentForecast(savedCity.lat, savedCity.lon);
-            console.log('savedCity true ', savedCity);
     } else {
         getCoordinates();
-        console.log('no saved city ');
     }
     }
 
     function getCoordinates(){
         var coordinatesURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearchValue.value + '&limit=5&appid=' + apikey;
-        console.log('citysearchvalue: ', citySearchValue.value);
-        console.log(coordinatesURL);
         citySearchForm.style.display = 'block';
         citySearchHeader.style.display = 'block';
 
@@ -200,7 +176,6 @@ function updateOverlayColor(totalMinutes) {
             return response.json();
         })
         .then(function (data){
-            console.log(data);
             if(data && data.length > 0){
                 selectedCityLat = data[0].lat;
                 selectedCityLon = data[0].lon;
@@ -210,8 +185,7 @@ function updateOverlayColor(totalMinutes) {
             else{
                 console.log("No Lat/long");
             }
-            console.log('lat: ', selectedCityLat);
-            console.log('long: ', selectedCityLon);
+            
         })
         
         .catch(function(error){
@@ -224,13 +198,11 @@ function updateOverlayColor(totalMinutes) {
     
      function getCurrentForecast(selectedCityLat, selectedCityLon){
         var forecastURL = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + selectedCityLat + '&lon='+ selectedCityLon + '&cnt=48&appid=' + apikey +'&units=imperial';
-        console.log("getcurrentforecast function: ", selectedCityLat, selectedCityLon);
         fetch(forecastURL)
         .then(function(response){
             return response.json();
         })
         .then(function(data){
-            console.log('weather data: ', data);
             forecastCityName = data.city.name;
             forecastCityDate = data.list[0].dt_txt;
             forecastCityTemp = Math.round(data.list[0].main.temp);
@@ -268,9 +240,7 @@ function updateOverlayColor(totalMinutes) {
 
         citySearchForm.addEventListener('submit', function(event){
         event.preventDefault();
-        console.log('clicked');
         citySearchValue.value = citySearchValue.value.split(',')[0].trim();
-        console.log(citySearchValue.value);
         getCoordinates();
     });
     
@@ -298,12 +268,10 @@ function updateOverlayColor(totalMinutes) {
     // }
     changeCityBtn.addEventListener('click', function(event){
         event.preventDefault();
-        console.log('change city button clicked');
         resetForm();
     });
 
     function resetForm(){
-        console.log('reset form function');
         document.getElementById('display-forecast').style.display = 'none';
         localStorage.removeItem('savedCity');
         citySearchValue.value = '';
