@@ -26,6 +26,259 @@ document.addEventListener('DOMContentLoaded', function () {
             addTask(childName);
         }
     });
+
+    function initClock(){
+        updateClock();
+        startClockInterval();
+    }
+    
+    let clockInterval;
+    let overlayInterval;
+    function startClockInterval() {
+    clearInterval(clockInterval);
+    clearInterval(overlayInterval);
+
+    // Update the clock every second
+    clockInterval = setInterval(updateClock, 1000);
+
+    // update the overlay color
+    overlayInterval = setInterval(updateOverlayColorCheck, 1000); 
+}
+    
+    function updateClock() {
+        let now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        let seconds = now.getSeconds();
+        
+        // Update analog clock hands
+        let hourHand = document.getElementById('hourHand');
+        let minuteHand = document.getElementById('minuteHand');
+        let secondHand = document.getElementById('secondHand');
+    
+        let hourDeg = (hours % 12 + minutes / 60) * 30;
+        let minuteDeg = (minutes + seconds / 60) * 6;
+        let secondDeg = (seconds / 60) * 360;
+        
+      
+        hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+        secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    
+        
+        // Update digital clock
+        let digitalClock = document.getElementById('digitalClock');
+        let timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        digitalClock.textContent = timeString;
+    }
+    
+//set get out the door time color overlay
+let setTimeButton = document.getElementById("set-time-btn");
+
+// populate dropdown menus with hours/mins
+function populateDropdowns() {
+    
+   
+    const hourDropdown = document.getElementById("hour");
+    for (let i = 0; i < 24; i++) {
+      const option = document.createElement("option");
+      option.value = i.toString();
+      option.textContent = option.value;
+      hourDropdown.appendChild(option);
+    }
+    const minuteDropdown = document.getElementById("minute");
+    for (let i = 0; i < 60; i += 5) {
+      const option = document.createElement("option");
+      option.value = i.toString();
+      option.textContent = option.value;
+      minuteDropdown.appendChild(option);
+    }
+    M.FormSelect.init(hourDropdown);
+    M.FormSelect.init(minuteDropdown);
+  }
+
+  function updateOverlayColorCheck() {
+    const currentTime = new Date();
+    const currentMinute = currentTime.getMinutes();
+    const selectedMinute = document.getElementById("minute").value;
+
+    // calculate remaining minutes
+    const timeDifference = parseInt(selectedMinute) - currentMinute;
+        updateOverlayColor(timeDifference);
+
+}
+
+
+  function setTime() {
+    const selectedHour = document.getElementById("hour").value;
+    const selectedMinute = document.getElementById("minute").value;
+  
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    const currentMinute = currentTime.getMinutes();
+  
+    // calculate minutes
+    const totalCurrentMinutes = currentHour * 60 + currentMinute;
+    const totalSelectedMinutes = parseInt(selectedHour) * 60 + parseInt(selectedMinute);
+  
+    // calculate remaining minutes
+    const timeDifference = totalSelectedMinutes - totalCurrentMinutes;
+  
+    // Update overlay color function
+    updateOverlayColor(timeDifference);
+  
+    // apply overlay
+    document.querySelector('.clockOverlay').style.display = 'block';
+}
+
+function updateOverlayColor(totalMinutes) {
+    let clockOverlay = document.querySelector('.clockOverlay');
+    if (totalMinutes >= 30) {
+      clockOverlay.style.backgroundColor = 'green';
+    } else if (totalMinutes <= 29 && totalMinutes >= 15) {
+      clockOverlay.style.backgroundColor = 'yellow';
+    } else if (totalMinutes <= 14 && totalMinutes >= 10) {
+      clockOverlay.style.backgroundColor = 'orange';
+    } else if (totalMinutes <= 9 && totalMinutes >= 5) {
+      clockOverlay.style.backgroundColor = 'red';
+    } else if (totalMinutes <= 4 && totalMinutes > 0){
+        clockOverlay.style.backgroundColor = 'maroon';
+    } else if (totalMinutes <= 0){
+        clockOverlay.style.backgroundColor = 'white';
+    } else {
+        clockOverlay.style.backgroundColor = 'white';
+    }
+    }
+  
+  
+  setTimeButton.addEventListener('click', function(event){
+    event.preventDefault();
+    setTime();
+  })
+  
+
+
+
+// weather functionality
+    let citySearchForm = document.getElementById("weather-search");
+    let citySearchValue = document.getElementById("city");
+    let citySearchHeader = document.getElementById("search-header");
+    let changeCityBtn = document.getElementById("change-city-btn");
+    let apikey = "69a921b4fa027e06293fbe2493b27f37";
+
+    function loadSavedCity(){
+        let savedCity = JSON.parse(localStorage.getItem('savedCity'));
+        if(savedCity) {
+            getCurrentForecast(savedCity.lat, savedCity.lon);
+    } else {
+        getCoordinates();
+    }
+    }
+
+    function getCoordinates(){
+        var coordinatesURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearchValue.value + '&limit=5&appid=' + apikey;
+        citySearchForm.style.display = 'block';
+        citySearchHeader.style.display = 'block';
+
+
+        fetch(coordinatesURL)
+        .then(function (response){
+            return response.json();
+        })
+        .then(function (data){
+            if(data && data.length > 0){
+                selectedCityLat = data[0].lat;
+                selectedCityLon = data[0].lon;
+                getCurrentForecast(selectedCityLat, selectedCityLon);
+                
+            }
+            else{
+                console.log("No Lat/long");
+            }
+            
+        })
+        
+        .catch(function(error){
+        console.log('Error fetching data: ', error);
+        });
+
+    }
+     
+    
+    
+     function getCurrentForecast(selectedCityLat, selectedCityLon){
+        var forecastURL = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + selectedCityLat + '&lon='+ selectedCityLon + '&cnt=48&appid=' + apikey +'&units=imperial';
+        fetch(forecastURL)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            forecastCityName = data.city.name;
+            forecastCityDate = data.list[0].dt_txt;
+            forecastCityTemp = Math.round(data.list[0].main.temp);
+            forecastCityOutlook = data.list[0].weather[0].description;
+            forecastCityIcon = data.list[0].weather[0].icon;
+            return data;
+            
+        })
+        .then(function(data){
+            writeForecast(data);
+            saveCityToLocalStorage({
+                name: forecastCityName,
+                lat: selectedCityLat,
+                lon: selectedCityLon,
+            });
+            
+        });
+    }
+    //write current weather data to the DOM
+    function writeForecast(){
+        let formattedDate = dayjs(forecastCityDate).format('ddd MMM D, YYYY');
+        let forecastIconURL = 'https://openweathermap.org/img/wn/' + forecastCityIcon + '@2x.png';
+        document.getElementById('display-forecast').style.display = 'block';
+        document.getElementById('forecastCityName').innerHTML = 'Good Morning, ' + forecastCityName + '!';
+        document.getElementById('todays-date').innerHTML = 'Today is ' + formattedDate + '.';
+        document.getElementById('current-temp').innerHTML = "Current Temperature: " + forecastCityTemp + ' Degrees';
+        document.getElementById('current-conditions').innerHTML = "Outside you'll find " + forecastCityOutlook + '.';
+        document.getElementById('weather-icons').innerHTML = '<img src="' + forecastIconURL + '">';
+        citySearchForm.style.display = 'none';
+        citySearchHeader.style.display = 'none';
+
+
+}
+        
+
+        citySearchForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        citySearchValue.value = citySearchValue.value.split(',')[0].trim();
+        getCoordinates();
+    });
+    
+    function saveCityToLocalStorage(savedCity){
+        let cityString = JSON.stringify(savedCity);
+        localStorage.setItem('savedCity', cityString);
+    }    
+    
+    changeCityBtn.addEventListener('click', function(event){
+        event.preventDefault();
+        resetForm();
+    });
+
+    function resetForm(){
+        document.getElementById('display-forecast').style.display = 'none';
+        localStorage.removeItem('savedCity');
+        citySearchValue.value = '';
+        citySearchForm.style.display = 'block';
+        citySearchHeader.style.display = 'block';
+
+    }
+
+
+    initClock();
+    loadSavedCity();
+    populateDropdowns();
+    
+
 });
 
 function openChildNameModal() {
