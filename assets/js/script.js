@@ -179,7 +179,7 @@ function updateOverlayColor(totalMinutes) {
     }
 
     function getCoordinates(){
-        var coordinatesURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearchValue.value + '&limit=5&appid=' + apikey;
+        var coordinatesURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + citySearchValue.value + '&limit=5&appid=' + apikey;
         citySearchForm.style.display = 'block';
         citySearchHeader.style.display = 'block';
 
