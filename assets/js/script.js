@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // M.AutoInit();
+    M.AutoInit();
 
     // Clear child names from local storage when the page is rendered
     localStorage.removeItem('childNames');
@@ -98,12 +98,6 @@ function displayChildNames() {
     });
 }
 
-var overlay = document.getElementById('overlay');
-var childInfoPopup = document.getElementById('childInfoPopup');
-
-overlay.style.display = 'none';
-childInfoPopup.style.display = 'none';
-
 function addTask(childName) {
     const taskInput = document.getElementById('taskInput');
     const childTasksContainer = document.getElementById(`childName_${childName}`);
@@ -147,38 +141,13 @@ function addTask(childName) {
     }
 }
 
-
-    // Function to close child information popup
-    // function closeChildInfoPopup() {
-    //     var overlay = document.getElementById('overlay');
-    //     var childInfoPopup = document.getElementById('childInfoPopup');
-
-    //     overlay.style.display = 'none';
-    //     childInfoPopup.style.display = 'none';
-    // }
     // Update digital clock
     let digitalClock = document.getElementById('digitalClock');
     let timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     digitalClock.textContent = timeString;
-    // }else{
-    //     seconds = 60;
-    //     let hourHand = document.getElementById('hourHand');
-    //     let minuteHand = document.getElementById('minuteHand');
-    //     let secondHand = document.getElementById('secondHand');
-
-    //     let hourDeg = (hours % 12 + minutes / 60) * 30;
-    //     let minuteDeg = (minutes + seconds / 60) * 6;
-    //     let secondDeg = (seconds / 60) * 360;
-    
-    //     console.log(secondDeg, seconds);
-
-    //     hourHand.style.transform = `rotate(${hourDeg}deg)`;
-    //     minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-    //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    //     secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    // 
-// // Initial call to set the clock when the page loads
-// updateClock();addButton.addEventListener('click', function () {
+   
+    // // Initial call to set the clock when the page loads
+    // updateClock();addButton.addEventListener('click', function () {
     addButton.addEventListener('click', function () {
         addTask(childName);
-    });
+});
